@@ -10,6 +10,8 @@ mountpoint='/media/TimeMachine'
 # Path were the image of your SD card should be saved to
 STORAGEPATH="/media/TimeMachine/pi-backup"
 
+MOSTRECENTPATH="/media/TimeMachine/pi-backup/recent"
+
 # Image name
 IMAGENAME="pi-copy"
 
@@ -92,6 +94,20 @@ echo $(date +%Y-%m-%d_%H-%M-%S) " - Finished compressing the image" >> ${LOGFILE
 echo $(date +%Y-%m-%d_%H-%M-%S) " - Started to delete the original image" >> ${LOGFILE}
 sudo rm ${STORAGEPATH}/${IMAGENAME}-$(date +%Y-%m-%d).img
 echo $(date +%Y-%m-%d_%H-%M-%S) " - Deleted the original image" >> ${LOGFILE}
+
+###################################
+# Move the backup to the recent folder
+###################################
+
+#Remove files from recent folder
+echo $(date +%Y-%m-%d_%H-%M-%S) " - Purging the recent folder" >> ${LOGFILE}
+find ${MOSTRECENTPATH}/*.img -exec rm -r {} \;
+echo $(date +%Y-%m-%d_%H-%M-%S) " - The recent folder has been purged" >> ${LOGFILE}
+
+#Move the backup to the recent folder
+echo $(date +%Y-%m-%d_%H-%M-%S) " - Moving backup to the recent folder" >> ${LOGFILE}
+sudo mv ${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img ${MOSTRECENTPATH}/${IMAGENAME}-recent.img
+echo $(date +%Y-%m-%d_%H-%M-%S) " - Backup has been moved to the recent folder" >> ${LOGFILE}
  
 # Creates a compressed file of the resized image
 # This command will create a compressed gz archive of the small image file.
@@ -117,4 +133,4 @@ echo $(date +%Y-%m-%d_%H-%M-%S) " - Deleted the original image" >> ${LOGFILE}
 # fi
 
 # Script finished
-echo $(date +%Y-%m-%d_%H-%M-%S) " - Mission Accomplished!!!" >> ${LOGFILE}
+echo $(date +%Y-%m-%d_%H-%M-%S) " - Backup successful" >> ${LOGFILE}
