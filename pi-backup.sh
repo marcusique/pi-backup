@@ -23,9 +23,9 @@ IMAGENAME="pi-copy"
 LOGFILE="/var/log/pi-backup.log"
 
 ###################################
-# Check Mount point Availability
+# Check Mount Point Availability
 ###################################
-echo $(date +%Y-%m-%d_%H-%M-%S) ">>>>>BACKUP STARTED<<<<<"
+echo $(date +%Y-%m-%d_%H-%M-%S) ">>>>>BACKUP STARTED<<<<<" >>${LOGFILE}
 
 if [ "$(findmnt ${MOUNTPOINT})" ]; then
     echo $(date +%Y-%m-%d_%H-%M-%S) " - The backup drive is available on "$HOSTNAME >>${LOGFILE}
@@ -94,17 +94,17 @@ echo $(date +%Y-%m-%d_%H-%M-%S) " - Deleted the original image "${STORAGEPATH}/$
 # Move the backup to the recent folder
 ###################################
 
-#Remove files from recent folder
+# Remove files from recent folder
 echo $(date +%Y-%m-%d_%H-%M-%S) " - Purging the recent folder "${MOSTRECENTPATH} >>${LOGFILE}
 find ${MOSTRECENTPATH}/*.img -exec rm -r {} \;
 echo $(date +%Y-%m-%d_%H-%M-%S) " - The recent folder has been purged "${MOSTRECENTPATH} >>${LOGFILE}
 
-#Move the backup to the recent folder
-echo $(date +%Y-%m-%d_%H-%M-%S) " - Moving backup to "${MOSTRECENTPATH}/${IMAGENAME}-recent.img >>${LOGFILE}
-sudo mv ${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img ${MOSTRECENTPATH}/${IMAGENAME}-recent.img
-echo $(date +%Y-%m-%d_%H-%M-%S) " - Backup has been moved to "${MOSTRECENTPATH}/${IMAGENAME}-recent.img >>${LOGFILE}
+# Copy the backup to the recent folder
+echo $(date +%Y-%m-%d_%H-%M-%S) " - Copying backup to "${MOSTRECENTPATH}/${IMAGENAME}-recent.img >>${LOGFILE}
+sudo cp ${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img ${MOSTRECENTPATH}/${IMAGENAME}-recent.img
+echo $(date +%Y-%m-%d_%H-%M-%S) " - Backup has been copied to "${MOSTRECENTPATH}/${IMAGENAME}-recent.img >>${LOGFILE}
 
 # Script finished
 duration=$SECONDS
 echo $(date +%Y-%m-%d_%H-%M-%S) " - Backup completed in ${duration} seconds" >>${LOGFILE}
-echo $(date +%Y-%m-%d_%H-%M-%S) ">>>>>BACKUP FINISHED<<<<<"
+echo $(date +%Y-%m-%d_%H-%M-%S) ">>>>>BACKUP FINISHED<<<<<" >>${LOGFILE}
