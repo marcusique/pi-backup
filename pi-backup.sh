@@ -91,18 +91,26 @@ sudo rm ${STORAGEPATH}/${IMAGENAME}-$(date +%Y-%m-%d).img
 echo $(date +%Y-%m-%d_%H-%M-%S) " - Deleted the original image "${STORAGEPATH}/${IMAGENAME}-$(date +%Y-%m-%d).img >>${LOGFILE}
 
 ###################################
+# gzip the compressed image
+###################################
+
+echo $(date +%Y-%m-%d_%H-%M-%S) " - Started to gzip the compressed image "${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img >>${LOGFILE}
+gzip -q ${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img
+echo $(date +%Y-%m-%d_%H-%M-%S) " - Finished to compress the compressed image "${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img.gz >>${LOGFILE}
+
+###################################
 # Move the backup to the recent folder
 ###################################
 
 # Remove files from recent folder
 echo $(date +%Y-%m-%d_%H-%M-%S) " - Purging the recent folder "${MOSTRECENTPATH} >>${LOGFILE}
-find ${MOSTRECENTPATH}/*.img -exec rm -r {} \;
+find ${MOSTRECENTPATH}/*.gz -exec rm -r {} \;
 echo $(date +%Y-%m-%d_%H-%M-%S) " - The recent folder has been purged "${MOSTRECENTPATH} >>${LOGFILE}
 
 # Copy the backup to the recent folder
-echo $(date +%Y-%m-%d_%H-%M-%S) " - Copying backup to "${MOSTRECENTPATH}/${IMAGENAME}-recent.img >>${LOGFILE}
-sudo cp ${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img ${MOSTRECENTPATH}/${IMAGENAME}-recent.img
-echo $(date +%Y-%m-%d_%H-%M-%S) " - Backup has been copied to "${MOSTRECENTPATH}/${IMAGENAME}-recent.img >>${LOGFILE}
+echo $(date +%Y-%m-%d_%H-%M-%S) " - Copying backup to "${MOSTRECENTPATH}/${IMAGENAME}-recent.img.gz >>${LOGFILE}
+sudo cp ${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img.gz ${MOSTRECENTPATH}/${IMAGENAME}-recent.img.gz
+echo $(date +%Y-%m-%d_%H-%M-%S) " - Backup has been copied to "${MOSTRECENTPATH}/${IMAGENAME}-recent.img.gz >>${LOGFILE}
 
 # Script finished
 duration=$SECONDS
