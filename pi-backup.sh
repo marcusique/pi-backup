@@ -53,7 +53,7 @@ fi
 echo $(date +%Y-%m-%d_%H-%M-%S) " - Starting to delete files older than 7 days in ${STORAGEPATH}" >>${LOGFILE}
 
 # Remove files older than 7 days
-find ${STORAGEPATH}/*.* -mtime +7 -exec rm -r {} \;
+sudo find ${STORAGEPATH}/*.* -mtime +7 -exec rm -r {} \;
 
 if [ $? != 0 ]; then
     echo $(date +%Y-%m-%d_%H-%M-%S) " - Old images successfully removed" >>${LOGFILE}
