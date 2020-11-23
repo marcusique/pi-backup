@@ -96,7 +96,7 @@ echo $(date +%Y-%m-%d_%H-%M-%S) " - Deleted the original image "${STORAGEPATH}/$
 
 echo $(date +%Y-%m-%d_%H-%M-%S) " - Started to gzip the compressed image "${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img >>${LOGFILE}
 gzip -q ${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img
-echo $(date +%Y-%m-%d_%H-%M-%S) " - Finished to compress the compressed image "${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img.gz >>${LOGFILE}
+echo $(date +%Y-%m-%d_%H-%M-%S) " - Finished to gzip the compressed image "${STORAGEPATH}/${IMAGENAME}_$(date +%Y-%m-%d)-compressed.img.gz >>${LOGFILE}
 
 ###################################
 # Move the backup to the recent folder
